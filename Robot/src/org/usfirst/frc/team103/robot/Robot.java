@@ -68,4 +68,24 @@ public class Robot extends SampleRobot {
             Timer.delay(0.005);
         }
     }
+    
+    public void autonomous(){
+    	talon0.enableControl();
+        talon1.enableControl();
+        talon0.changeControlMode(CANTalon.ControlMode.PercentVbus);
+        talon0.setSafetyEnabled(false);
+        talon1.changeControlMode(CANTalon.ControlMode.PercentVbus);
+        talon1.setSafetyEnabled(false);
+        while(isAutonomous() && isEnabled()){
+    		SmartDashboard.putNumber("Auton Encoder", talon1.getEncPosition());
+        	if (Math.abs(talon1.getEncPosition()) < 1000.0 && Math.abs(talon1.getEncPosition()) < 1000.0){
+        		talon0.set(0.5);
+        		talon1.set(0.5);
+        	}
+        	SmartDashboard.putNumber("throttle", talon0.get());
+        	SmartDashboard.putNumber("throttle1", talon1.get());
+        }
+        talon0.disableControl();
+        talon1.disableControl();
+    }
 }
