@@ -2,6 +2,7 @@
 package org.usfirst.frc.team103.robot;
 
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -11,15 +12,19 @@ import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends SampleRobot {
 	CANTalon talon0, talon1, talon2, talon3;
 	Talon tower;
+	AnalogPotentiometer pot;
 	DoubleSolenoid s0, s1;
     RobotDrive drive;
     Joystick controller;
+    JoystickButton bButton;
     Compressor compressor;
     CameraServer server;
 
@@ -46,7 +51,27 @@ public class Robot extends SampleRobot {
         tower.setSafetyEnabled(true);
         tower.setExpiration(0.1);
         
+        pot = new AnalogPotentiometer(0);
+        
         controller = new Joystick(0);
+        bButton = new JoystickButton(controller, 2);
+        bButton.whenPressed(new Command() {
+        	private boolean isOpen = true;
+			@Override
+			protected boolean isFinished() { return true; }
+			@Override
+			protected void interrupted() { }
+			@Override
+			protected void initialize() {
+				if (Robot.this.isOperatorControl()) {
+					s0.set((isOpen = !isOpen) ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
+				}
+			}
+			@Override
+			protected void execute() { }
+			@Override
+			protected void end() { }
+		});
         
         compressor.start();
         SmartDashboard.putBoolean("pcm", compressor.getClosedLoopControl());
@@ -62,10 +87,17 @@ public class Robot extends SampleRobot {
     	talon2.enableControl();
     	talon3.enableControl();
         while (isOperatorControl() && isEnabled()) {
+        	SmartDashboard.putNumber("string pot", pot.get());
         	double slowMod = controller.getRawButton(6) ? 1.5 : 1.0;
             drive.tankDrive(-controller.getRawAxis(1) / slowMod, -controller.getRawAxis(5) / slowMod, true);
             tower.set(controller.getRawAxis(3) - controller.getRawAxis(2));
             Timer.delay(0.005);
+            if(controller.getRawButton(3)){
+            	//s0.set(DoubleSolenoid.Value.kForward);
+            }
+            if(controller.getRawButton(2)){
+            	
+            }
         }
     }
     
