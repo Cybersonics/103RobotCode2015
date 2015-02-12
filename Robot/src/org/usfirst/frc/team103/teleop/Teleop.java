@@ -19,7 +19,7 @@ public class Teleop {
 	public void runTeleop(){
 		while(robot.isOperatorControl() && robot.isEnabled()){
 			doTowerControls();
-			double mod = (robot.getButtonData(6) ? slowMod1 : 0.0) * (robot.getButtonData(7) ? slowMod2 : 0.0);
+			double mod = (Mapping.SlowMod1.<Boolean>getValue() ? slowMod1 : 0.0) * (Mapping.SlowMod2.<Boolean>getValue() ? slowMod2 : 0.0);
 			robot.drive.tankDrive(-robot.getAxisData(0) / mod, -robot.getAxisData(1) / mod);
 			
 		}

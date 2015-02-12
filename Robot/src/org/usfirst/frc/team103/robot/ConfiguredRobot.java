@@ -1,5 +1,8 @@
 package org.usfirst.frc.team103.robot;
 
+import org.usfirst.frc.team103.input.Axis;
+import org.usfirst.frc.team103.input.Input;
+
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -12,8 +15,6 @@ import edu.wpi.first.wpilibj.Talon;
 public class ConfiguredRobot extends SampleRobot{
 	
 	public CameraServer server;
-	
-	public Joystick[] inputs;
 	
 	/* MAPPING STRUCTURE:
 	 * ex. mappings[0] = {1, 5}
@@ -33,7 +34,6 @@ public class ConfiguredRobot extends SampleRobot{
 	 * 10 is pos 3 (button)
 	 * 11 is pos 4 (button)
 	 */
-	public int[][] mappings;
 	
 	public RobotDrive drive;
 	
@@ -45,49 +45,21 @@ public class ConfiguredRobot extends SampleRobot{
 	
 	public Talon tower;
 	
-	public ConfiguredRobot(int[]... mappings){
-		
-		this.mappings = mappings;
-		
-		int numJ = getNumOfJoysticks();
-		inputs = new Joystick[numJ];
-		for(int i=0; i<numJ; i++){
-			inputs[i] = new Joystick(i);
-		}
-		
-		
+	public ConfiguredRobot(){
+		Mapping.LeftDrive.<Double>getValue();
 	}
 	
 	public enum Mapping {
-		LeftDrive, RightDrive, Tower, LowGear, HighGear, Grabber, SlowMod1, SlowMod2, Pos1, Pos2, Pos3, Pos4;
-	}
-	
-	private int getNumOfJoysticks(){
-		int i = 0;
-		while(true){
-			try{
-				Joystick temp = new Joystick(i);
-				temp.getRawAxis(0);
-			}catch(Exception e){
-				return i;
-			}
-			i++;
+		LeftDrive(new Axis(0, 0)),
+		RightDrive(new Axis(1, 0)),
+		Tower, LowGear, HighGear, Grabber, SlowMod1, SlowMod2, Pos1, Pos2, Pos3, Pos4;
+		
+		public final Input input;
+		private Mapping(Input in) {
+			input = in;
 		}
-	}
-	
-	public double getAxisData(int mappingNum){
-		return inputs[mappings[mappingNum][0]].getRawAxis(mappings[mappingNum][1]);
-	}
-	
-	public boolean getButtonData(int mappingNum){
-		return inputs[mappings[mappingNum][0]].getRawButton(mappings[mappingNum][1]);
-	}
-	
-	public double getAxisData(Mapping m){
-		return getAxisData(m.ordinal());
-	}
-	
-	public boolean getButtonData(Mapping m){
-		return getButtonData(m.ordinal());
+		public <T> T getValue() {
+			return (T) input.getValue();
+		}
 	}
 }
