@@ -1,6 +1,7 @@
 package org.usfirst.frc.team103.robot;
 
 import org.usfirst.frc.team103.input.Axis;
+import org.usfirst.frc.team103.input.Button;
 import org.usfirst.frc.team103.input.Input;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -16,25 +17,6 @@ public class ConfiguredRobot extends SampleRobot{
 	
 	public CameraServer server;
 	
-	/* MAPPING STRUCTURE:
-	 * ex. mappings[0] = {1, 5}
-	 * sets mapping 0 to stick 1, button/axis 5
-	 * 
-	 * MAPPINGS:
-	 * 0 is left drive (axis)
-	 * 1 is right drive (axis)
-	 * 2 is tower (axis)
-	 * 3 is low gear (button)
-	 * 4 is high gear (button)
-	 * 5 is grabber (button)
-	 * 6 is slow mod (button)
-	 * 7 is slow mod (button)
-	 * 8 is pos 1 (button)
-	 * 9 is pos 2 (button)
-	 * 10 is pos 3 (button)
-	 * 11 is pos 4 (button)
-	 */
-	
 	public RobotDrive drive;
 	
 	public PIDController pid;
@@ -46,13 +28,18 @@ public class ConfiguredRobot extends SampleRobot{
 	public Talon tower;
 	
 	public ConfiguredRobot(){
-		Mapping.LeftDrive.<Double>getValue();
 	}
 	
 	public enum Mapping {
 		LeftDrive(new Axis(0, 0)),
 		RightDrive(new Axis(1, 0)),
-		Tower, LowGear, HighGear, Grabber, SlowMod1, SlowMod2, Pos1, Pos2, Pos3, Pos4;
+		Tower(new Axis(2, 0)),
+		LowGear(new Button(0, 2)),
+		HighGear(new Button(0, 1)),
+		Grabber(new Button(2, 3)), 
+		SlowMod1(new Button(0, 1)),
+		SlowMod2(new Button(1, 1));
+		//Pos1, Pos2, Pos3, Pos4;
 		
 		public final Input input;
 		private Mapping(Input in) {

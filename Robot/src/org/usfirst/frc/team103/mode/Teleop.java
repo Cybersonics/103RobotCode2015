@@ -1,4 +1,4 @@
-package org.usfirst.frc.team103.teleop;
+package org.usfirst.frc.team103.mode;
 
 import org.usfirst.frc.team103.robot.ConfiguredRobot;
 import org.usfirst.frc.team103.robot.ConfiguredRobot.Mapping;
@@ -20,7 +20,7 @@ public class Teleop {
 		while(robot.isOperatorControl() && robot.isEnabled()){
 			doTowerControls();
 			double mod = (Mapping.SlowMod1.<Boolean>getValue() ? slowMod1 : 0.0) * (Mapping.SlowMod2.<Boolean>getValue() ? slowMod2 : 0.0);
-			robot.drive.tankDrive(-robot.getAxisData(0) / mod, -robot.getAxisData(1) / mod);
+			robot.drive.tankDrive(-Mapping.LeftDrive.<Double>getValue() / mod, -Mapping.RightDrive.<Double>getValue() / mod);
 			
 		}
 		robot.pid.disable();
@@ -28,13 +28,13 @@ public class Teleop {
 	
 	
 	public void doTowerControls(){
-		if (Math.abs(robot.getAxisData(Mapping.Tower)) > 0.05) {
+		if (Math.abs(Mapping.Tower.<Double>getValue()) > 0.05) {
     		if (robot.pid.isEnable()) robot.pid.disable();
-    		double mult = Math.max(0.0, Math.min(1.0, robot.getAxisData(2)) < 0 ? 10.0 * robot.pot.get() - 0.5 : -40.0 * robot.pot.get() + 22.0);
-    		robot.tower.set(mult * robot.getAxisData(2));
+    		double mult = Math.max(0.0, Math.min(1.0, Mapping.Tower.<Double>getValue()) < 0 ? 10.0 * robot.pot.get() - 0.5 : -40.0 * robot.pot.get() + 22.0);
+    		robot.tower.set(mult * Mapping.Tower.<Double>getValue());
     	} else {
     		boolean enable = true;
-    		if (robot.getButtonData(Mapping.Pos1)){
+    		/*if (robot.getButtonData(Mapping.Pos1)){
     			robot.pid.setSetpoint(0.065);
     		}else if (robot.getButtonData(Mapping.Pos2)) {
         		robot.pid.setSetpoint(0.244);
@@ -44,7 +44,7 @@ public class Teleop {
         		robot.pid.setSetpoint(0.520);
         	}else{
         		enable = false;
-        	}
+        	}*/
         	if (enable && !robot.pid.onTarget()) robot.pid.enable();
         	if (robot.pid.onTarget() && robot.pid.isEnable()) robot.pid.disable(); 
     	}

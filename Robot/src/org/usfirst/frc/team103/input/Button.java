@@ -2,7 +2,7 @@ package org.usfirst.frc.team103.input;
 
 public class Button extends Input<Boolean> {
 
-	protected Button(int usbID, int buttonID) {
+	public Button(int usbID, int buttonID) {
 		super(usbID, buttonID);
 	}
 
