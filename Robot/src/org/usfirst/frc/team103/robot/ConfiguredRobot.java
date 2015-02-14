@@ -3,6 +3,7 @@ package org.usfirst.frc.team103.robot;
 import org.usfirst.frc.team103.input.Axis;
 import org.usfirst.frc.team103.input.Button;
 import org.usfirst.frc.team103.input.Input;
+import org.usfirst.frc.team103.input.ToggleButton;
 import org.usfirst.frc.team103.mode.Teleop;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -127,15 +128,18 @@ public class ConfiguredRobot extends SampleRobot{
 	}
 	
 	public enum Mapping {
-		LeftDrive(new Axis(0, 0)),
-		RightDrive(new Axis(1, 0)),
-		Tower(new Axis(2, 0)),
+		LeftDrive(new Axis(0, 1)),
+		RightDrive(new Axis(1, 1)),
+		Tower(new Axis(2, 1)),
 		LowGear(new Button(0, 2)),
-		HighGear(new Button(0, 1)),
-		Grabber(new Button(2, 3)), 
+		HighGear(new Button(0, 3)),
+		Grabber(new ToggleButton(2, 3)), 
 		SlowMod1(new Button(0, 1)),
-		SlowMod2(new Button(1, 1));
-		//Pos1, Pos2, Pos3, Pos4;
+		SlowMod2(new Button(1, 1)),
+		Pos1(new Button(2, 6)),
+		Pos2(new Button(2, 7)),
+		Pos3(new Button(2, 11)),
+		Pos4(new Button(2, 10));
 		
 		public final Input input;
 		private Mapping(Input in) {
