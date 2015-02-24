@@ -11,8 +11,12 @@
 
 package org.usfirst.frc103.Cyber103.commands;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc103.Cyber103.Robot;
+import org.usfirst.frc103.Cyber103.RobotMap;
 
 /**
  *
@@ -44,6 +48,7 @@ public class  LiftGeneric extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	
     }
 
     // Called when another command which requires one or more of the same

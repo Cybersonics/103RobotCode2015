@@ -11,7 +11,9 @@
 
 package org.usfirst.frc103.Cyber103.commands;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc103.Cyber103.Robot;
 
 /**
@@ -30,6 +32,8 @@ public class  AutonomousCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	PIDController plz = Robot.driveTrain.getPIDController();
+    	
     }
 
     // Called repeatedly when this Command is scheduled to run
