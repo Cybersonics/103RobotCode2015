@@ -33,7 +33,9 @@ public class  AutonomousCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	PIDController plz = Robot.driveTrain.getPIDController();
-    	
+    	plz.disable();
+    	plz.enable();
+    	plz.setSetpoint(4);
     }
 
     // Called repeatedly when this Command is scheduled to run

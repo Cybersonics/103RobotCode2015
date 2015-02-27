@@ -44,12 +44,32 @@ public class Lift extends Subsystem {
     	
     }
     
-    public void tower() {
-        double potv = Robot.lift.analogPot.get();
-        double stick3v = Robot.oi.joystickOperator.getRawAxis(1);
-        stick3v = Math.abs(stick3v) > 0.05 ? stick3v : 0.0;
-        double mult = Math.max(0.0, Math.min(1.0, stick3v < 0 ? 10.0 * potv - 0.5 : -40.0 * potv + 22.0));
-        Robot.lift.liftController.set(mult * stick3v);
+    public void towerUp() {
+		liftController.set(-1);
+
+    }
+    public void towerDown(){
+		liftController.set(1);
+
+    }
+    public void towerStop(){
+    	liftController.set(0);
+    }
+    public void autoUpPoint(){
+    	if(analogPot.get() <= 0.356){
+    		liftController.set(1.5);
+    	}else{
+    		liftController.set(0);
+    		Robot.towerUpBool = 1;
+    	}
+    }
+    public void autoDownPoint(){
+    	if(analogPot.get() >= 0.101){
+    		liftController.set(-1);
+    	}else{
+    		liftController.set(0);
+    		Robot.towerUpBool = 3;
+    	}
     }
 }
 
