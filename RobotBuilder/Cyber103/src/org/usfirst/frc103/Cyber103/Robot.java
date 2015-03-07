@@ -45,7 +45,9 @@ public class Robot extends IterativeRobot {
     public static boolean doneToteLeftAuto = false;
     public static boolean doneToteRightAuto = false;
     public static boolean doneToteTForwardAuto = false;
+    public static boolean doneForwardLiftAuto = false;
     public static boolean doneForwardAuto = false;
+    public static boolean doneRCAuto = false;
     public static int towerUpBool = 0;
     public static int armGrabOpenBool = 0;
     /**
@@ -54,11 +56,14 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
         autoChooser = new SendableChooser();
-        autoChooser.addDefault("The Becks", new MunRockAuto());
-        autoChooser.addObject("Forward Pick Up", new FowardAuto());
-        autoChooser.addObject("ToteThenLeft", new ToteThenLeftAuto());
-        autoChooser.addObject("ToteThenRight", new ToteThenRightAuto());
+        autoChooser.addDefault("Do Nothing", new MunRockAuto());
+        autoChooser.addDefault("Drive Forward", new ForwardAuto());
+        autoChooser.addObject("Forward Pick Up", new ForwardLiftAuto());
+        autoChooser.addObject("RC", new RC());
         autoChooser.addObject("Grab Tote Then Turn", new ToteThenTForward());
+        autoChooser.addObject("TailAuto (Not Complete)", new TailAuto());
+        autoChooser.addObject("ToteThenLeft (Not Complete)", new ToteThenLeftAuto());
+        autoChooser.addObject("ToteThenRight (Not Complete)", new ToteThenRightAuto());
         SmartDashboard.putData("Autonomous Chooser", autoChooser);
         
         RobotMap.init();

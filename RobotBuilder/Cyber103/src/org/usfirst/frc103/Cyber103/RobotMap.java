@@ -36,6 +36,7 @@ public class RobotMap {
     public static DoubleSolenoid armGrabberArmSolenoid;
     public static SpeedController liftLiftController;
     public static AnalogPotentiometer liftAnalogPot;
+    public static PIDController liftPID;
     public static Compressor compressorSystemCompressorSubsystem;
     public static SpeedController tailTailController;
 
@@ -86,6 +87,11 @@ public class RobotMap {
         liftAnalogPot = new AnalogPotentiometer(0, 1.0, 0.0);
         LiveWindow.addSensor("Lift", "AnalogPot", liftAnalogPot);
         
+        liftPID = new PIDController(0.65, 0.96, 0.8, 1.0, liftAnalogPot, liftLiftController, 0.005);
+        LiveWindow.addActuator("Lift", "PID", liftPID);
+        liftPID.setContinuous(false); liftPID.setAbsoluteTolerance(0.2); 
+        liftPID.setOutputRange(-1.0, 1.0);        
+
         compressorSystemCompressorSubsystem = new Compressor(0);
         
         

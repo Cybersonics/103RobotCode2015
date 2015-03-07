@@ -45,7 +45,7 @@ public class Tail extends Subsystem {
     }
     
     public void tailDown(){
-    	tailController.set(1);
+    	tailController.set(-1);
     }
     
     public void tailStop(){
