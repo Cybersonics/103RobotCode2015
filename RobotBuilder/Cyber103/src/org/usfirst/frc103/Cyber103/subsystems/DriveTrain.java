@@ -102,11 +102,14 @@ public class DriveTrain extends PIDSubsystem {
          } else {
         	 double in = -(Robot.oi.getJoystickOperator().getRawAxis(5));
         	 in = Math.pow(in, 3) / Math.abs(in);
-        	 double lower = 0.06, upper = 0.57;
-        	 double buffer = 0.05;
-        	 double a = 1/buffer;
-        	 double mult = Math.max(0.0, Math.min(1.0, in) < 0 ? a * (RobotMap.liftAnalogPot.get() - lower) : -a * (RobotMap.liftAnalogPot.get() - upper));
-             RobotMap.liftLiftController.set(in * mult);
+        	 double lower = 0.05;
+        	 double upper = 0.62;
+        	 double lowBuffer = 0.03;
+        	 double upBuffer = lowBuffer/2.0;
+        	 double la = 1/lowBuffer;
+        	 double ua = -1/upBuffer;
+        	 double mult = Math.max(0.0, Math.min(1.0, in) < 0 ? la * (RobotMap.liftAnalogPot.get() - lower) : ua * (RobotMap.liftAnalogPot.get() - upper));
+             RobotMap.liftLiftController.set(0.15 * in * mult);
          }
     }
     
@@ -334,7 +337,8 @@ public class DriveTrain extends PIDSubsystem {
     public void toteThenTForwardCom(){
     	//SmartDashboard.putNumber("EncoderLeft", driveEncoderLeft.getDistance());
     	//SmartDashboard.putNumber("EPOT", Robot.lift.analogPot.get());
-    	if(driveEncoderLeft.getDistance() <= 200.00){
+    	int tweak = 50;
+    	if(driveEncoderLeft.getDistance() <= 150/*200.00*/){
     		if(Robot.armGrabOpenBool == 0){
     			Robot.armGrabber.close();
     			Robot.armGrabOpenBool = 1;
@@ -350,7 +354,7 @@ public class DriveTrain extends PIDSubsystem {
     		leftBackController.set(0.3);
     		rightBackController.set(0.3);
     	} 
-    	if(driveEncoderLeft.getDistance() >= 200.00 && driveEncoderLeft.getDistance() <= 1500.50){	
+    	if(driveEncoderLeft.getDistance() >= /*200.00-tweak*/150 && driveEncoderLeft.getDistance() <= /*1500.50-tweak*/1350){	
     		leftFrontController.set(0);
     		rightFrontController.set(0);
     		leftBackController.set(0);
@@ -358,7 +362,7 @@ public class DriveTrain extends PIDSubsystem {
     		robotDrive.drive(-0.4, 0);
     	}
     	
-    	if(driveEncoderLeft.getDistance() > 1300.00){
+    	if(driveEncoderLeft.getDistance() > 1340.00){
     		robotDrive.drive(0, 0);
     		
     		Robot.lift.autoDownPoint();
