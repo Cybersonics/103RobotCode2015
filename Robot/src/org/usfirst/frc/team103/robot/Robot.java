@@ -10,24 +10,32 @@ import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Robot extends SampleRobot{
 	
-	public DriveTrain dt;
-	public Tower tower;
-	public Tail tail;
+	public static DriveTrain dt;
+	public static Tower tower;
+	public static Tail tail;
 	
     //public RobotDrive drive;
-    public Compressor compressor;
-    public CameraServer server;
+    public static Compressor compressor;
+    public static CameraServer server;
     
-    public Teleop t;
+    public static Teleop t;
 	
-    public SendableChooser a;
-    Command autonCommand;
+    public static SendableChooser a;
+    public static Command autonCommand;
     
 	public Robot(){
+
+        //SmartDashboard.putNumber("right encoder", dt.rightBack.getEncPosition());
+		//SmartDashboard.putNumber("left encoder", dt.leftBack.getEncPosition());
+	}
+	@Override
+	protected void robotInit(){
 		try{
+    		
 			dt = new DriveTrain();
 			tower = new Tower();
     		
@@ -38,8 +46,7 @@ public class Robot extends SampleRobot{
     		compressor = new Compressor();
     		compressor.setClosedLoopControl(true);
     		SmartDashboard.putBoolean("pcm", compressor.getClosedLoopControl());
-
-    		t = new Teleop(this);
+    	
     		a = new SendableChooser();
     		a.addDefault("Do Nothing", new DoNothing());
     		a.addObject("Drive Forward", new DriveForward());
@@ -47,6 +54,11 @@ public class Robot extends SampleRobot{
     		a.addObject("Tote Then Turn Right" , new ToteTR());
     		a.addObject("Recycling Can and Tote", new RC());
     		a.addObject("Tail (Unfinished)", new TailAuto());
+    		SmartDashboard.putData("Autonomous Chooser", a);
+    		autonCommand = (Command) a.getSelected();
+    		autonCommand.start();
+    		
+    		t = new Teleop(this);
     		
     		
         	//server = CameraServer.getInstance();
@@ -57,8 +69,6 @@ public class Robot extends SampleRobot{
         }catch(Exception e){
         	SmartDashboard.putString("Startup Errors", e.getMessage());
         }
-        //SmartDashboard.putNumber("right encoder", dt.rightBack.getEncPosition());
-		//SmartDashboard.putNumber("left encoder", dt.leftBack.getEncPosition());
 	}
 	@Override
 	public void operatorControl(){
@@ -67,8 +77,7 @@ public class Robot extends SampleRobot{
 	}
 	@Override
 	public void autonomous(){
-		autonCommand = (Command) a.getSelected();
-		autonCommand.start();
+		Scheduler.getInstance().run();
 	}
 	
 	@Override

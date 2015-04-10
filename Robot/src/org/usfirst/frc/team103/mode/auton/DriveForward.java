@@ -1,19 +1,30 @@
 package org.usfirst.frc.team103.mode.auton;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team103.robot.Robot;
 
 public class DriveForward extends Command{
-
+	private Encoder leftEnc;
+	private Encoder rightEnc;
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
+		leftEnc = Robot.dt.leftEnc;
+		rightEnc = Robot.dt.rightEnc;
+		leftEnc.reset();
+		rightEnc.reset();
+		leftEnc.setDistancePerPulse(1);
+		rightEnc.setDistancePerPulse(1);
+		SmartDashboard.putString("plz", "plz");
 		
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		
+    		//Robot.dt.goTo(501, 501, 0.4);
+    		Robot.dt.leftBack.set(-0.4);
 	}
 
 	@Override
@@ -30,8 +41,9 @@ public class DriveForward extends Command{
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		leftEnc.reset();
+		rightEnc.reset();
+		Robot.dt.goTo(0,0,0);
 	}
 
 }

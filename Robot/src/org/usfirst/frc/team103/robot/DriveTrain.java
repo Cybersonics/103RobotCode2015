@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain {
 	public Talon leftBack, leftFront, rightFront, rightBack;
 	private DoubleSolenoid gear;
-	private Encoder leftEnc, rightEnc;
+	public Encoder leftEnc, rightEnc;
 	private static double encPerIn = 39.75;
 	
 	public DriveTrain(){
