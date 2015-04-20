@@ -11,6 +11,7 @@ public class Tower {
 	private AnalogPotentiometer pot;
 	public PIDController pid;
 	private DoubleSolenoid grabber;
+	private DoubleSolenoid rcGrabber;
 	
 	public Tower(){
 		motor = new Talon(4);
@@ -32,6 +33,14 @@ public class Tower {
 			grabber.set(DoubleSolenoid.Value.kForward);
 		}else{
 			grabber.set(DoubleSolenoid.Value.kReverse);
+		}
+	}
+	
+	public void setRCGrabber(boolean b){
+		if(b){
+			rcGrabber.set(DoubleSolenoid.Value.kForward);
+		}else{
+			rcGrabber.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
 	
