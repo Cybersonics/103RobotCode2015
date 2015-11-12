@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -93,10 +94,11 @@ public class DriveTrain extends PIDSubsystem {
     
     public void tankDriveCommand(Joystick left, Joystick right){
     	//SmartDashboard.putNumber("EncoderLeftTele", driveEncoderLeft.getDistance());
-    	robotDrive.tankDrive(left, right);
+    	robotDrive.tankDrive(left, right, true);
     	//SmartDashboard.putNumber("POV Thing", Robot.oi.joystickOperator.getAxis(AxisType.kX));
     	//SmartDashboard.putNumber("Joystick", Robot.oi.joystickOperator.getAxis(AxisType.kY));
     	//SmartDashboard.putNumber("EPOT", Robot.lift.analogPot.get());
+        SmartDashboard.putNumber("POT", RobotMap.liftAnalogPot.get());
     	if (Robot.oi.getJoystickOperator().getRawAxis(5) < 0.09 && Robot.oi.getJoystickOperator().getRawAxis(5) > -0.09) {
             RobotMap.liftLiftController.set(0);
          } else {

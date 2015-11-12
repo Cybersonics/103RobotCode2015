@@ -20,4 +20,8 @@ public class RCGrabber extends Subsystem{
 	public void close(){
 		Robot.rcGrabber.rcSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
+	
+    public void stop(){
+    	Robot.rcGrabber.rcSolenoid.set(DoubleSolenoid.Value.kOff);
+    }
 }
